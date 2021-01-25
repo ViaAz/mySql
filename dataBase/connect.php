@@ -7,7 +7,8 @@ class DataBase{
     public string $tableName;
     public $connect;
 
-    function __construct($tabName = "Users"){
+
+    function __construct(string $tabName = "Users"){
         $this->tableName = $tabName;
         $this->connect = mysqli_connect($this->host, $this->user_name, $this->user_password, $this->dataBaseName);
         if (!$this->connect) {
@@ -15,8 +16,9 @@ class DataBase{
         }
     }
 
+
     public function getFullDB(): array {
-        $querySql = 'SELECT * from Users;';
+        $querySql = 'SELECT * from $this->tableName;';
         $result = mysqli_query($this->connect, $querySql);
         if (!$result) {
             die('failed'.mysqli_connect_error());
@@ -29,15 +31,34 @@ class DataBase{
     }
 
     public function addNewUser($login, $email, $password) {
-        $querySql = "INSERT INTO Users (login, email, password) VALUES ('$login', '$email', '$password')";
+        $querySql = "INSERT INTO $this->tableName (login, email, password) VALUES ('$login', '$email', '$password')";
         $result = mysqli_query($this->connect, $querySql);
         if (!$result) {
             die('failed'.mysqli_connect_error());
         }
 
     }
-    public function deleteByLogin() {
 
+    public function deleteById($user_id) {
+        $querySql = "DELETE FROM $this->tableName WHERE login = '$user_id';";
+        $result = mysqli_query($this->connect, $querySql);
+        if (!$result) {
+            die('failed'.mysqli_connect_error());
+        }
+
+    }
+
+    public function selectByColumnName($column_name): array {
+        $querySql = "SELECT $column_name, user_id FROM $this->tableName";
+        $result = mysqli_query($this->connect, $querySql);
+        if (!$result) {
+            die('failed'.mysqli_connect_error());
+        }
+        $dataArray = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            array_push($dataArray, $row);
+        }
+        return $dataArray;
     }
 
 
