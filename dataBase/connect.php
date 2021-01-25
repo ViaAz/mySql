@@ -1,12 +1,11 @@
 <?php
 class DataBase{
-    private string $host = 'localhost';
-    private string $user_name = 'root';
-    private string $user_password = '';
+    protected string $host = 'localhost';
+    protected string $user_name = 'root';
+    protected string $user_password = '';
     private string $dataBaseName = 'BLOg';
     public string $tableName;
     public $connect;
-
 
     function __construct(string $tabName = "Users"){
         $this->tableName = $tabName;
@@ -18,7 +17,7 @@ class DataBase{
 
 
     public function getFullDB(): array {
-        $querySql = 'SELECT * from $this->tableName;';
+        $querySql = "SELECT * from $this->tableName;";
         $result = mysqli_query($this->connect, $querySql);
         if (!$result) {
             die('failed'.mysqli_connect_error());
@@ -40,7 +39,7 @@ class DataBase{
     }
 
     public function deleteById($user_id) {
-        $querySql = "DELETE FROM $this->tableName WHERE login = '$user_id';";
+        $querySql = "DELETE FROM $this->tableName WHERE user_id = '$user_id';";
         $result = mysqli_query($this->connect, $querySql);
         if (!$result) {
             die('failed'.mysqli_connect_error());
