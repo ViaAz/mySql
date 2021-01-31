@@ -1,4 +1,5 @@
 <?php
+
 class DataBase{
     protected string $host = 'localhost';
     protected string $user_name = 'root';
@@ -15,7 +16,6 @@ class DataBase{
         }
     }
 
-
     public function getFullDB(): array {
         $querySql = "SELECT * from $this->tableName;";
         $result = mysqli_query($this->connect, $querySql);
@@ -27,6 +27,17 @@ class DataBase{
            array_push($dataArray, $row);
         }
         return $dataArray;
+    }
+
+    public function login($login, $password): ?array {
+        $result = $this->getFullDB();
+        $currentUser = null;
+        foreach ($result as $item) {
+            if ($item['login'] === $login && $item['password'] === $password) {
+                $currentUser = $item;
+            }
+        }
+        return $currentUser;
     }
 
     public function addNewUser($login, $email, $password) {
@@ -59,7 +70,4 @@ class DataBase{
         }
         return $dataArray;
     }
-
-
-
 }

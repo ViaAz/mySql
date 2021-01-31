@@ -1,77 +1,59 @@
 <?php
-//require './handler.php';
-require './dataBase/creating.php';
-$test = new DataBaseStart();
-//global $dataBaseInfo, $db;
-//unset($_POST);
+session_start();
+//if (!empty($_SESSION['user_id'])) header('Location: index.php');
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"
-          integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
-</head>
-<body>
-<header>
 
-</header>
-<main>
-    <div class="container">
-        <div class="row mb-5">
-            <div class="col mt-5 mb-5">
-                <form method="post">
-                    <div class="mb-3">
-                        <label for="loginInput" class="form-label">Login</label>
-                        <input type="text" name="login" class="form-control" id=loginInput" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="emailInput" class="form-label">Email address</label>
-                        <input type="email" name="email" class="form-control" id="emailInput" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="passwordInput1" class="form-label">Password</label>
-                        <input type="password" name="password1" class="form-control" id="passwordInput1" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="passwordInput2" class="form-label">Password confirm</label>
-                        <input type="password" name="password2" class="form-control" id="passwordInput2" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary" name="submit">Submit</button>
-                </form>
-            </div>
-            <div class="col-12 mb-5">
-                <form action="" method="post">
-                    <button type="submit" name="getDB">show Data Base</button>
-                    <div id="dateBaseList">
-                        <?php
-                         print_r($dataBaseInfo);
-                        ?>
-                    </div>
-                </form>
-            </div>
+<?php require_once './templates/header.php' ?>
 
-        </div>
-        <div class="row">
-            <div class="col">
-                <form method="post">
-                    <div class="mb-3">
-                        <label for="userId" class="form-label">Login</label>
-                        <select name="user_id" id="userId">
-                            <?php foreach($db->selectByColumnName('Login') as $item): ?>
-                                <option value="<?=$item['user_id']?>"><?=$item['Login']?></option>
-                            <?php endforeach;?>
-                        </select>
-                        <button class="btn btn-primary" type="submit" name="deleteUser">delete user</button>
-                    </div>
-                </form>
+<form method="post" class="form login">
+    <fieldset>
+        <?php if (!isset($registration)): ?>
+            <legend>Log in</legend>
+            <div class="mb-3">
+                <label for="loginInput" class="form-label">User name / E-mail</label>
+                <input type="text" name="login" class="form-control" id=login" required>
             </div>
-        </div>
-    </div>
-</main>
+            <div class="mb-3">
+                <label for="passwordInput1" class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" id="passwordInput1" required>
+            </div>
+            <button type="submit" class="btn btn-primary" name="loginSubmit">Log in</button>
+            <a href="?registration=true">registration</a>
+        <?php else: ?>
+            <legend>Registration</legend>
+            <div class="mb-3">
+                <label for="loginInput" class="form-label">First name:</label>
+                <input type="text" name="firstNameInput" class="form-control" id=firstNameInput" required>
+            </div>
+            <div class="mb-3">
+                <label for="loginInput" class="form-label">Surname:</label>
+                <input type="text" name="surnameInput" class="form-control" id=surnameInput" required>
+            </div>
+            <div class="mb-3">
+                <label for="loginInput" class="form-label">login:</label>
+                <input type="text" name="loginInput" class="form-control" id=loginInput" required>
+            </div>
+            <div class="mb-3">
+                <label for="loginInput" class="form-label">Email:</label>
+                <input type="email" name="emailInput" class="form-control" id=emailInput" required>
+            </div>
+            <div class="mb-3">
+                <label for="passwordInput1" class="form-label">Password:</label>
+                <input type="password" name="passwordInput" class="form-control" id="passwordInput1" required>
+            </div>
+            <div class="mb-3">
+                <label for="loginInput" class="form-label">Sex:</label>
+                <select name="sex" id="" class="form-control">
+                    <option value="f">female</option>
+                    <option value="m">male</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" name="registration">Registration</button>
+        <?php endif; ?>
+    </fieldset>
 
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.bundle.min.js" integrity="sha384-BOsAfwzjNJHrJ8cZidOg56tcQWfp6y72vEJ8xQ9w6Quywb24iOsW913URv1IS4GD"
-        crossorigin="anonymous"></script>
-</body>
-</html>
+</form>
+<?php
+$_SESSION['message'];
+?>
+<?php require_once './templates/footer.php' ?>
