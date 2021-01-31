@@ -1,8 +1,7 @@
 <?php
 session_start();
-
-require 'handler.php';
-global $dataBaseInfo, $db, $registration;
+//require 'handler.php';
+//global $dataBaseInfo, $db, $registration;
 ?>
 <!DOCTYPE html>
 <html lang="en">

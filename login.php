@@ -48,12 +48,13 @@ session_start();
                     <option value="m">male</option>
                 </select>
             </div>
+            <div class="mb-3">
+                <label for="loginInput" class="form-label">Birthdays:</label>
+                <input type="date" class="form-control" name="birthdays">
+            </div>
             <button type="submit" class="btn btn-primary" name="registration">Registration</button>
         <?php endif; ?>
     </fieldset>
 
 </form>
-<?php
-$_SESSION['message'];
-?>
 <?php require_once './templates/footer.php' ?>

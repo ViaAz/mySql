@@ -1,16 +1,18 @@
 <?php
+interface DBInfo {
+    const host = 'localhost';
+    const user_name = 'root';
+    const user_password = '';
+    const dataBaseName = 'Blog';
+}
 
-class DataBase{
-    protected string $host = 'localhost';
-    protected string $user_name = 'root';
-    protected string $user_password = '';
-    private string $dataBaseName = 'BLOg';
-    public string $tableName;
-    public $connect;
+class DataBase implements DBInfo{
+    protected string $tableName;
+    protected $connect;
 
     function __construct(string $tabName = "Users"){
         $this->tableName = $tabName;
-        $this->connect = mysqli_connect($this->host, $this->user_name, $this->user_password, $this->dataBaseName);
+        $this->connect = mysqli_connect($this::host, $this::user_name, $this::user_password, $this::dataBaseName);
         if (!$this->connect) {
             echo 'connect failed';
         }
@@ -41,7 +43,8 @@ class DataBase{
     }
 
     public function addNewUser($login, $email, $password) {
-        $querySql = "INSERT INTO $this->tableName (login, email, password) VALUES ('$login', '$email', '$password')";
+        $querySql = "INSERT INTO $this->tableName 
+(login, email, password) VALUES ('$login', '$email', '$password')";
         $result = mysqli_query($this->connect, $querySql);
         if (!$result) {
             die('failed'.mysqli_connect_error());
