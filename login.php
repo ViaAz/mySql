@@ -1,6 +1,6 @@
 <?php
 session_start();
-//if (!empty($_SESSION['user_id'])) header('Location: index.php');
+if (!empty($_SESSION['user_info'])) header('Location: ./index.php');
 ?>
 
 <?php require_once './templates/header.php' ?>
