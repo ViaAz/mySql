@@ -1,7 +1,6 @@
 <?php
 session_start();
 require './handler.php';
-//global $dataBaseInfo, $db, $registration;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,13 +15,15 @@ require './handler.php';
 <header class="header">
     <nav class="d-flex justify-content-between align-items-center">
         <a href="">PHP WAY</a>
-        <div>
+        <div >
             <?php if(!isset($_SESSION['user_info'])): ?>
                 <a href="?login">
                     <button class="btn btn-primary" name="login_act">log in</button>
                 </a>
             <?php else: ?>
-                <span class="mr-2"><?php echo 'Hello, '.$_SESSION['user_info']['login'];?></span>
+                <a href="blog.php" class="font-weight-bold">Blog</a>
+
+                <span class="ml-5 mr-2"><?php echo 'Hello, '.$_SESSION['user_info']['login'];?></span>
                 <a href="?logout">
                     <button class="btn btn-primary" name="logout_act">log out</button>
                 </a>

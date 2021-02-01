@@ -2,7 +2,7 @@
 
 require 'creating.php';
 
-class Users extends DataBaseStart
+class DBMain extends DataBaseStart
 {
     protected string $tableName;
 
@@ -41,27 +41,43 @@ class Users extends DataBaseStart
         return $currentUser;
     }
 
-    public function addNewUser($firstName, $surname, $birthday, $login, $email, $password)
+    public function addNewUser($firstName, $surname, $birthday, $login, $email, $password): ?bool
     {
+//        $password = password_hash($password, PASSWORD_DEFAULT);
         $querySql = "INSERT INTO $this->tableName (firstName, surname, birthday, login, email, password) 
              VALUES ('$firstName', '$surname', DATE('$birthday'), '$login', '$email', '$password');";
         $result = mysqli_query($this->connectDB, $querySql);
         if (!$result) {
             die('failed' . mysqli_connect_error());
         }
+        return (bool) $result;
     }
 
-    public function selectByColumnName($column_name): array
-    {
-        $querySql = "SELECT $column_name, user_id FROM $this->tableName";
+    public function createNotes($header, $body) {
+        $curUser = (int) $_SESSION['user_info']['id'];
+        $header = $this->connectDB->real_escape_string($header);
+        $body = $this->connectDB->real_escape_string($body);
+        $querySql = "INSERT INTO Notes (header, body, created, owner_id) 
+             VALUES ('$header', '$body', NOW(), '$curUser');";
         $result = mysqli_query($this->connectDB, $querySql);
+        echo $result;
         if (!$result) {
             die('failed' . mysqli_connect_error());
         }
-        $dataArray = [];
+    }
+
+    public function getNotes(): ?array {
+        $querySql = "SELECT Notes.id, Notes.header, Notes.body, Users.login, CONCAT(Users.firstName, ' ', Users.surname) as userName
+        FROM Notes 
+        LEFT JOIN Users ON Notes.owner_id = Users.id";
+        $result = mysqli_query($this->connectDB, $querySql);
+        if (!$result) {
+            die('failed' . mysqli_connect_error());
+        }        $dataArray = [];
         while ($row = mysqli_fetch_assoc($result)) {
             array_push($dataArray, $row);
         }
         return $dataArray;
     }
+
 }

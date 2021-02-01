@@ -56,6 +56,7 @@ class DataBaseStart implements DBInfo
         id int(11) NOT NULL UNIQUE AUTO_INCREMENT,
         header varchar(100),
         body varchar(700),
+        created date NOT NULL,
         owner_id int(11) NOT NULL,
         img_id int(11),
         PRIMARY KEY (id),
