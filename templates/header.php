@@ -1,6 +1,6 @@
 <?php
 session_start();
-//require 'handler.php';
+require 'handler.php';
 //global $dataBaseInfo, $db, $registration;
 ?>
 <!DOCTYPE html>

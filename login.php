@@ -50,7 +50,7 @@ session_start();
             </div>
             <div class="mb-3">
                 <label for="loginInput" class="form-label">Birthdays:</label>
-                <input type="date" class="form-control" name="birthdays">
+                <input type="date" class="form-control" name="birthday">
             </div>
             <button type="submit" class="btn btn-primary" name="registration">Registration</button>
         <?php endif; ?>
