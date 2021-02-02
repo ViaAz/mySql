@@ -14,7 +14,7 @@ require './handler.php';
 <body>
 <header class="header">
     <nav class="d-flex justify-content-between align-items-center">
-        <a href="">PHP WAY</a>
+        <a href="index.php">PHP WAY</a>
         <div >
             <?php if(!isset($_SESSION['user_info'])): ?>
                 <a href="?login">

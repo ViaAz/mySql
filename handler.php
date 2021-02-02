@@ -4,7 +4,7 @@ session_start();
 require './database/connect.php';
 $db = new DBMain();
 
-//check user in database
+//checking user in the database
 if (isset($_POST['loginSubmit'])) {
     $userInfo = $db->login($_POST['login'], $_POST['password']);
     if (isset($userInfo)) {
@@ -39,7 +39,7 @@ if (isset($_GET['login'])) {
     die();
 }
 
-//from link info
+// for showing registration page
 if (isset($_GET['registration'])) {
     $registration = true;
 }

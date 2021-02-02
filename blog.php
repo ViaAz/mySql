@@ -3,6 +3,7 @@
 require_once './templates/header.php';
 global $db;
 if (empty($_SESSION['user_info'])) header('Location: ./login.php');
+// getting notes from db if user is selected and existed
 $notes = $db->getNotes();
 ?>
 <div class="container">
