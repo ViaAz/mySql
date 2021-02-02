@@ -4,20 +4,20 @@ require 'creating.php';
 
 class DBMain extends DataBaseStart
 {
-    protected string $tableName;
+    protected string $tableNameUsers = 'Users';
+    protected string $tableNameNotes = 'Notes';
 
-    function __construct(string $tableName = 'Users')
+    function __construct()
     {
-        $this->tableName = $tableName;
         parent::__construct();
         parent::createUsersTable();
         parent::createImagesTable();
         parent::createNotesTable();
     }
 
-    public function getFullDB(): array
+    protected function getFullTable(string $tableName): array
     {
-        $querySql = "SELECT * from $this->tableName;";
+        $querySql = "SELECT * from $tableName;";
         $result = mysqli_query($this->connectDB, $querySql);
         if (!$result) {
             die('failed' . mysqli_connect_error());
@@ -29,9 +29,9 @@ class DBMain extends DataBaseStart
         return $dataArray;
     }
 
-    public function login($login, $password): ?array
+    public function login(string $login, string $password): ?array
     {
-        $result = $this->getFullDB();
+        $result = $this->getFullTable($this->tableNameUsers);
         $currentUser = null;
         foreach ($result as $item) {
             if ($item['login'] === $login && $item['password'] === $password) {
@@ -41,10 +41,10 @@ class DBMain extends DataBaseStart
         return $currentUser;
     }
 
-    public function addNewUser($firstName, $surname, $birthday, $login, $email, $password): ?bool
+    public function addNewUser(string $firstName, string $surname, $birthday, string $login, string $email, string $password): ?bool
     {
 //        $password = password_hash($password, PASSWORD_DEFAULT);
-        $querySql = "INSERT INTO $this->tableName (firstName, surname, birthday, login, email, password) 
+        $querySql = "INSERT INTO $this->tableNameUsers (firstName, surname, birthday, login, email, password) 
              VALUES ('$firstName', '$surname', DATE('$birthday'), '$login', '$email', '$password');";
         $result = mysqli_query($this->connectDB, $querySql);
         if (!$result) {
@@ -57,7 +57,7 @@ class DBMain extends DataBaseStart
         $curUser = (int) $_SESSION['user_info']['id'];
         $header = $this->connectDB->real_escape_string($header);
         $body = $this->connectDB->real_escape_string($body);
-        $querySql = "INSERT INTO Notes (header, body, created, owner_id) 
+        $querySql = "INSERT INTO $this->tableNameNotes (header, body, created, owner_id) 
              VALUES ('$header', '$body', NOW(), '$curUser');";
         $result = mysqli_query($this->connectDB, $querySql);
         echo $result;
@@ -68,7 +68,7 @@ class DBMain extends DataBaseStart
 
     public function getNotes(): ?array {
         $querySql = "SELECT Notes.id, Notes.header, Notes.body, Users.login, CONCAT(Users.firstName, ' ', Users.surname) as userName
-        FROM Notes 
+        FROM $this->tableNameNotes 
         LEFT JOIN Users ON Notes.owner_id = Users.id";
         $result = mysqli_query($this->connectDB, $querySql);
         if (!$result) {

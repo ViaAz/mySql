@@ -44,7 +44,6 @@ if (isset($_GET['registration'])) {
     $registration = true;
 }
 
-
 if (isset($_POST['create_note'])) {
     $db->createNotes($_POST['note_header'], $_POST['note_body']);
     header('Location: blog.php');
