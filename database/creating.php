@@ -14,7 +14,6 @@ class DataBaseStart implements DBInfo
 
     protected function __construct()
     {
-        //create connection and create table if it doesn't exist yet
         $this->connectDB = mysqli_connect($this::host, $this::user_name, $this::user_password);
         $this->connectDB = mysqli_connect($this::host, $this::user_name, $this::user_password);
         $this->connectDB->query("CREATE DATABASE IF NOT EXISTS " . $this::dataBaseName . ";");
